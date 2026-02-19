@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^6.3.2
   flutter_form_builder: ^10.1.0
   form_builder_validators: ^11.2.0
+  hugeicons: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,6 +65,9 @@ flutter:
     - assets/players/p1.png
     - assets/players/p2.png
     - assets/images/play_logo.png
+    - assets/icons/trophy.png
+    - assets/images/squarepic.png
+    - assets/icons/star-award-01.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
