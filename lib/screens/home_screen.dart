@@ -268,7 +268,64 @@ class LocationBar extends StatelessWidget {
   }
 }
 
+<<<<<<< HEAD
 /// ================= RECENT MATCHES =================
+=======
+class _DarkTeam extends StatelessWidget {
+  const _DarkTeam();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            CircleAvatar(
+              radius: 24,
+              backgroundImage: AssetImage('assets/players/p1.png'),
+            ),
+            Positioned(
+              left: 30,
+              child: CircleAvatar(
+                radius: 24,
+                backgroundImage: AssetImage('assets/players/p2.png'),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 8),
+        Text(
+          "Ahmad & Hassan",
+          style: TextStyle(color: Colors.white, fontSize: 12),
+        ),
+      ],
+    );
+  }
+}
+
+class _DateBlock extends StatelessWidget {
+  const _DateBlock();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Text("Tue", style: TextStyle(color: Colors.white)),
+        SizedBox(height: 6),
+        Text(
+          "28",
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
+        ),
+        Text("OCT", style: TextStyle(color: Colors.white)),
+      ],
+    );
+  }
+}
+>>>>>>> ca475f37070e33c6e229e5ba3c8e66e5a21f3f87
 class RecentMatchesSection extends StatelessWidget {
   const RecentMatchesSection({super.key});
 
