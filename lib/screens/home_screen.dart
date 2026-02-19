@@ -8,89 +8,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     return Scaffold(
-      backgroundColor: cs.surface,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               HomeHeader(),
-              SizedBox(height: 24),
+              SizedBox(height: 28),
               UpcomingMatchCard(),
-              SizedBox(height: 32),
+              SizedBox(height: 28),
               RecentMatchesSection(),
+              SizedBox(height: 120),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: _bottomNav(cs),
-    );
-  }
-
-  /// ------------------ BOTTOM NAV ------------------
-  Widget _bottomNav(ColorScheme cs) {
-    return SafeArea(
-      top: false,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        color: cs.surface,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _navItem(Icons.home, 'Home', 0, cs),
-            _navItem(Icons.sports_tennis, 'Matches', 1, cs),
-            _navItem(Icons.play_arrow, 'Play', 2, cs),
-            _navItem(Icons.history, 'History', 3, cs),
-            _navItem(Icons.person_outline, 'Profile', 4, cs),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _navItem(
-      IconData icon, String label, int index, ColorScheme cs) {
-    final selected = _currentIndex == index;
-
-    return GestureDetector(
-      onTap: () => setState(() => _currentIndex = index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: selected ? cs.primary : Colors.transparent,
-            ),
-            child: Icon(
-              icon,
-              color: selected ? cs.onPrimary : cs.outline,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: selected ? cs.primary : cs.outline,
-            ),
-          ),
-        ],
-      ),
+      bottomNavigationBar: const CustomBottomNav(),
     );
   }
 }
-
-/// ================= HEADER =================
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
@@ -99,155 +40,149 @@ class HomeHeader extends StatelessWidget {
     return Row(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12),
           child: Image.asset(
             'assets/players/p1.png',
-            width: 44,
-            height: 44,
+            width: 52,
+            height: 52,
             fit: BoxFit.cover,
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 14),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             Text(
-              'Padel Park Dubai',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              "Padel Park Dubai",
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            SizedBox(height: 4),
             Text(
-              'Al Quoz Industrial Area 3 - Dubai',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              "Al Quoz Industrial Area 3 - Dubai",
+              style: TextStyle(fontSize: 13, color: Colors.grey),
             ),
           ],
         ),
         const Spacer(),
-
-
-        IconButton(
-          icon: const Icon(Icons.notifications_none),
-          onPressed: () {
-            debugPrint('Notifications clicked');
+        InkWell(
+          borderRadius: BorderRadius.circular(30),
+          onTap: () {
+            debugPrint("Notification Clicked");
           },
-        ),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: const Icon(Icons.notifications_none),
+          ),
+        )
       ],
     );
   }
 }
-
-/// ================= UPCOMING MATCH =================
 class UpcomingMatchCard extends StatelessWidget {
   const UpcomingMatchCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
-        color: cs.inverseSurface,
-        borderRadius: BorderRadius.circular(20),
+        color: const Color(0xFF1E1E1E),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// Trophy + Title
+        children: const [
           Row(
             children: [
-              Icon(Icons.emoji_events, color: cs.primary, size: 18),
-              const SizedBox(width: 6),
+              Icon(Icons.emoji_events, color: Color(0xFF8CE000)),
+              SizedBox(width: 8),
               Text(
-                'Upcoming Match',
+                "Upcoming Match",
                 style: TextStyle(
-                  color: cs.primary,
-                  fontWeight: FontWeight.w600,
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),
               ),
             ],
           ),
-
-          const SizedBox(height: 26),
-
-          /// Teams + Date + Location
+          SizedBox(height: 28),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _team(cs),
-
-              Column(
-                children: [
-                  Text(
-                    'Tue\n28\nOCT',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: cs.onInverseSurface,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Al Quoz Industrial Area 3',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: cs.onInverseSurface.withOpacity(0.7),
-                    ),
-                  ),
-                ],
-              ),
-
-              _team(cs),
+              _DarkTeam(),
+              _DateBlock(),
+              _DarkTeam(),
             ],
           ),
         ],
       ),
     );
   }
+}
 
-  /// ================= TEAM WIDGET =================
-  Widget _team(ColorScheme cs) {
+class _DarkTeam extends StatelessWidget {
+  const _DarkTeam();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: const [
         Stack(
           clipBehavior: Clip.none,
-          children: const [
+          children: [
             CircleAvatar(
-              radius: 20,
+              radius: 24,
               backgroundImage: AssetImage('assets/players/p1.png'),
             ),
             Positioned(
-              left: 26,
+              left: 30,
               child: CircleAvatar(
-                radius: 20,
+                radius: 24,
                 backgroundImage: AssetImage('assets/players/p2.png'),
               ),
             ),
           ],
         ),
-
-        const SizedBox(height: 10),
-
+        SizedBox(height: 8),
         Text(
-          'Ahmad & Hassan',
-          style: TextStyle(
-            fontSize: 12,
-            color: cs.onInverseSurface,
-          ),
+          "Ahmad & Hassan",
+          style: TextStyle(color: Colors.white, fontSize: 12),
         ),
       ],
     );
   }
 }
 
-/// ================= RECENT MATCHES SECTION =================
+class _DateBlock extends StatelessWidget {
+  const _DateBlock();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Text("Tue", style: TextStyle(color: Colors.white70)),
+        SizedBox(height: 6),
+        Text(
+          "28",
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
+        ),
+        Text("OCT", style: TextStyle(color: Colors.white70)),
+      ],
+    );
+  }
+}
 class RecentMatchesSection extends StatelessWidget {
   const RecentMatchesSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -255,116 +190,81 @@ class RecentMatchesSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              'Recent Matches',
+              "Recent Matches",
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
-            TextButton(
-              onPressed: () {
-                debugPrint('See all clicked');
+            InkWell(
+              onTap: () {
+                debugPrint("See All Clicked");
               },
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(
-                'See all',
+              child: const Text(
+                "See All",
                 style: TextStyle(
-                  color: cs.primary,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF8CE000),
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
+            )
           ],
         ),
-
-        const SizedBox(height: 14),
-        const RecentMatchCard(),
+        const SizedBox(height: 20),
+        const RankedMatchCard(),
+        const SizedBox(height: 16),
+        const RankedMatchCard(),
       ],
     );
   }
 }
-
-/// ================= RECENT MATCH CARD =================
-class RecentMatchCard extends StatelessWidget {
-  const RecentMatchCard({super.key});
+class RankedMatchCard extends StatelessWidget {
+  const RankedMatchCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
-        children: [
+        children: const [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
                   Icon(Icons.emoji_events_outlined,
-                      size: 18, color: cs.primary),
-                  const SizedBox(width: 6),
-                  const Text(
-                    'Ranked Match',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
+                      size: 18, color: Colors.black54),
+                  SizedBox(width: 6),
+                  Text("Ranked Match",
+                      style: TextStyle(fontWeight: FontWeight.w600)),
                 ],
               ),
-              Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: cs.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  'Team A Won',
-                  style: TextStyle(fontSize: 11, color: cs.primary),
-                ),
+              Text(
+                "Team A Won",
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF8CE000),
+                    fontWeight: FontWeight.w600),
               ),
             ],
           ),
-
-          const SizedBox(height: 16),
-
+          SizedBox(height: 18),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              _TeamView(),
-              Text('V/S'),
-              _TeamView(),
+            children: [
+              _MiniTeam(),
+              Text("v/s"),
+              _MiniTeam(),
             ],
           ),
-
-          const SizedBox(height: 14),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.access_time, size: 14, color: cs.outline),
-              const SizedBox(width: 6),
-              Text(
-                'OCT 28, 2025 • 4:15 PM',
-                style: TextStyle(fontSize: 12, color: cs.outline),
-              ),
-            ],
+          SizedBox(height: 14),
+          Text(
+            "OCT 28, 2025 • 4:15PM",
+            style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],
       ),
@@ -372,32 +272,148 @@ class RecentMatchCard extends StatelessWidget {
   }
 }
 
-class _TeamView extends StatelessWidget {
-  const _TeamView();
+class _MiniTeam extends StatelessWidget {
+  const _MiniTeam();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: const [
-      Stack(
-      clipBehavior: Clip.none,
-      children: const [
-        CircleAvatar(
-          radius: 20,
-          backgroundImage: AssetImage('assets/players/p1.png'),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundImage: AssetImage('assets/players/p1.png'),
+            ),
+            Positioned(
+              left: 24,
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: AssetImage('assets/players/p2.png'),
+              ),
+            ),
+          ],
         ),
-        Positioned(
-          left: 26, // 🔑 controls overlap
-          child: CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage('assets/players/p2.png'),
+        SizedBox(height: 6),
+        Text("Ahmad & Hassan",
+            style: TextStyle(fontSize: 11)),
+      ],
+    );
+  }
+}
+class CustomBottomNav extends StatefulWidget {
+  const CustomBottomNav({super.key});
+
+  @override
+  State<CustomBottomNav> createState() => _CustomBottomNavState();
+}
+
+class _CustomBottomNavState extends State<CustomBottomNav> {
+  int currentIndex = 0;
+  void onTabTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    return SafeArea(
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(40),
+          border: Border.all(
+            color: Colors.grey.shade300,
+            width: 1,
           ),
         ),
-      ],
-    ),
-        SizedBox(height: 6),
-        Text('Ahmad & Hassan', style: TextStyle(fontSize: 12)),
-      ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(
+              icon: Icons.home,
+              label: "Home",
+              index: 0,
+              cs: cs,
+            ),
+            _buildNavItem(
+              icon: Icons.emoji_events_outlined,
+              label: "Matches",
+              index: 1,
+              cs: cs,
+            ),
+            _buildPlayButton(cs),
+            _buildNavItem(
+              icon: Icons.history,
+              label: "History",
+              index: 3,
+              cs: cs,
+            ),
+            _buildNavItem(
+              icon: Icons.person_outline,
+              label: "Profile",
+              index: 4,
+              cs: cs,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    required int index,
+    required ColorScheme cs,
+  }) {
+    final bool active = currentIndex == index;
+
+    return GestureDetector(
+      onTap: () => onTabTapped(index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: active ? cs.primary : Colors.black54,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              color: active ? cs.primary : Colors.black54,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPlayButton(ColorScheme cs) {
+    final bool active = currentIndex == 2;
+
+    return GestureDetector(
+      onTap: () => onTabTapped(2),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: cs.primary,
+          shape: BoxShape.circle,
+        ),
+        child: Image.asset(
+          'assets/images/play_logo.png',
+          height: 28,
+          width: 28,
+        ),
+      ),
     );
   }
 }
