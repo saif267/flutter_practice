@@ -269,8 +269,14 @@ class LocationBar extends StatelessWidget {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /// ================= RECENT MATCHES =================
 =======
+=======
+
+/// ================= RECENT MATCHES =================
+
+>>>>>>> 09a6056fb39869dd1a45c26520f8efabe4359b3a
 class _DarkTeam extends StatelessWidget {
   const _DarkTeam();
 
@@ -565,3 +571,4 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
     );
   }
 }
+
