@@ -268,15 +268,9 @@ class LocationBar extends StatelessWidget {
   }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-/// ================= RECENT MATCHES =================
-=======
-=======
-
 /// ================= RECENT MATCHES =================
 
->>>>>>> 09a6056fb39869dd1a45c26520f8efabe4359b3a
+
 class _DarkTeam extends StatelessWidget {
   const _DarkTeam();
 
@@ -331,7 +325,7 @@ class _DateBlock extends StatelessWidget {
     );
   }
 }
->>>>>>> ca475f37070e33c6e229e5ba3c8e66e5a21f3f87
+
 class RecentMatchesSection extends StatelessWidget {
   const RecentMatchesSection({super.key});
 
@@ -515,7 +509,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.symmetric(vertical: 2),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(60),
@@ -536,26 +530,45 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   }
 
   Widget navItem(
-      IconData icon, String label, int index, Color primary) {
+      IconData icon,
+      String label,
+      int index,
+      Color primary,
+      ) {
     final active = currentIndex == index;
 
     return GestureDetector(
       onTap: () => onTap(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon,
-              color: active ? primary : Colors.black54),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              color:
-              active ? primary : Colors.black54,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+        decoration: BoxDecoration(
+          color: active
+              ? primary.withOpacity(0.10) // 👈 soft green shade
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: active ? primary : Colors.black54,
             ),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: active ? primary : Colors.black54,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -571,4 +584,3 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
     );
   }
 }
-
