@@ -164,7 +164,7 @@ class _DateBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        Text("Tue", style: TextStyle(color: Colors.white70)),
+        Text("Tue", style: TextStyle(color: Colors.white)),
         SizedBox(height: 6),
         Text(
           "28",
@@ -173,7 +173,7 @@ class _DateBlock extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: Colors.white),
         ),
-        Text("OCT", style: TextStyle(color: Colors.white70)),
+        Text("OCT", style: TextStyle(color: Colors.white)),
       ],
     );
   }
