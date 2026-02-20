@@ -39,6 +39,7 @@ dependencies:
   flutter_form_builder: ^10.1.0
   form_builder_validators: ^11.2.0
   hugeicons: ^1.0.0
+  lucide_icons: ^0.257.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

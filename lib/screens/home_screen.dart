@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-
+import 'package:lucide_icons/lucide_icons.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -42,36 +42,77 @@ class HomeHeader extends StatelessWidget {
 
     return Row(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Image.asset(
-            'assets/images/squarepic.png',
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-          ),
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                'assets/images/squarepic.png',
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            /// Rank Bar
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 18,
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  "Rank: A",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 16),
+
+        const SizedBox(width: 18),
+
+        /// Title & Location
         const Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Padel Park Dubai",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              SizedBox(height: 6),
+              SizedBox(height: 2),
               Row(
                 children: [
-                  Icon(Icons.location_on_outlined,
-                      size: 16, color: Colors.grey),
+                  Icon(
+                    Icons.location_on_rounded,
+                    size: 18,
+                    color: Colors.black,
+                  ),
                   SizedBox(width: 4),
                   Expanded(
                     child: Text(
                       "Al Quoz Industrial Area 3 - Dubai",
                       overflow: TextOverflow.ellipsis,
-                      style:
-                      TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ],
@@ -79,30 +120,27 @@ class HomeHeader extends StatelessWidget {
             ],
           ),
         ),
+
+        /// Notification Button
         InkWell(
           borderRadius: BorderRadius.circular(40),
           onTap: () => debugPrint("Notification Clicked"),
-          child: Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFE0E0E0)),
-                ),
-                child: const HugeIcon(
-                  icon: HugeIcons.strokeRoundedNotification01,
-                  size: 22,
-                ),
-              ),
-            ],
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE0E0E0)),
+            ),
+            child: const HugeIcon(
+              icon: HugeIcons.strokeRoundedNotification01,
+              size: 18,
+            ),
           ),
-        )
+        ),
       ],
     );
   }
 }
-
 /// ================= UPCOMING MATCH =================
 class UpcomingMatchCard extends StatelessWidget {
   const UpcomingMatchCard({super.key});
@@ -156,16 +194,28 @@ class MatchRow extends StatelessWidget {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        MatchTeam(),
+        MatchTeam(
+          teamName: "Team A",
+          players: ["Ahmad", "Hassan"],
+        ),
         DateBlock(),
-        MatchTeam(),
+        MatchTeam(
+          teamName: "Team B",
+          players: ["Omar", "Ali"],
+        ),
       ],
     );
   }
 }
-
 class MatchTeam extends StatelessWidget {
-  const MatchTeam({super.key});
+  final String teamName;
+  final List<String> players;
+
+  const MatchTeam({
+    super.key,
+    required this.teamName,
+    required this.players,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -187,17 +237,26 @@ class MatchTeam extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        const Text(
-          "Team A",
-          style: TextStyle(color: Colors.grey, fontSize: 14),
+
+        /// Team Label
+        Text(
+          teamName,
+          style: const TextStyle(
+            color: Colors.grey,
+            fontSize: 14,
+          ),
         ),
+
         const SizedBox(height: 4),
-        const Text(
-          "Ahmad & Hassan",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500),
+
+        /// Player Names
+        Text(
+          "${players[0]} & ${players[1]}",
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );
@@ -212,7 +271,10 @@ class MatchTeam extends StatelessWidget {
         border: Border.all(color: primary, width: 2.5),
       ),
       child: ClipOval(
-        child: Image.asset(path, fit: BoxFit.cover),
+        child: Image.asset(
+          path,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -256,11 +318,11 @@ class LocationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.location_on,
-              color: Colors.white70, size: 18),
+              color: Colors.white, size: 18),
           SizedBox(width: 6),
           Text(
             "Al Quoz Industrial Area 3 - Dubai",
-            style: TextStyle(color: Colors.white70),
+            style: TextStyle(color: Colors.white),
           ),
         ],
       ),
@@ -269,62 +331,6 @@ class LocationBar extends StatelessWidget {
 }
 
 /// ================= RECENT MATCHES =================
-
-
-class _DarkTeam extends StatelessWidget {
-  const _DarkTeam();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundImage: AssetImage('assets/players/p1.png'),
-            ),
-            Positioned(
-              left: 30,
-              child: CircleAvatar(
-                radius: 24,
-                backgroundImage: AssetImage('assets/players/p2.png'),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 8),
-        Text(
-          "Ahmad & Hassan",
-          style: TextStyle(color: Colors.white, fontSize: 12),
-        ),
-      ],
-    );
-  }
-}
-
-class _DateBlock extends StatelessWidget {
-  const _DateBlock();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text("Tue", style: TextStyle(color: Colors.white)),
-        SizedBox(height: 6),
-        Text(
-          "28",
-          style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
-        ),
-        Text("OCT", style: TextStyle(color: Colors.white)),
-      ],
-    );
-  }
-}
 
 class RecentMatchesSection extends StatelessWidget {
   const RecentMatchesSection({super.key});
@@ -350,6 +356,7 @@ class RecentMatchesSection extends StatelessWidget {
                 style: TextStyle(
                   color: primary,
                   fontWeight: FontWeight.w600,
+                    fontSize: 20
                 ),
               ),
             )
@@ -363,7 +370,6 @@ class RecentMatchesSection extends StatelessWidget {
     );
   }
 }
-
 class RankedMatchCard extends StatelessWidget {
   const RankedMatchCard({super.key});
 
@@ -394,27 +400,47 @@ class RankedMatchCard extends StatelessWidget {
                   Icon(Icons.emoji_events_outlined,
                       size: 18, color: Colors.black54),
                   SizedBox(width: 6),
-                  Text("Ranked Match",
-                      style:
-                      TextStyle(fontWeight: FontWeight.w600)),
+                  Text(
+                    "Ranked Match",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ],
               ),
               WinBadge(primary: primary),
             ],
           ),
           const SizedBox(height: 18),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              MiniTeam(),
+            children: [
+              MiniTeam(
+                teamName: "Team A",
+                players: "Ahmad & Hassan",
+              ),
               Text("v/s"),
-              MiniTeam(),
+              MiniTeam(
+                teamName: "Team B",
+                players: "Omar & Ali",
+              ),
             ],
           ),
+
           const SizedBox(height: 14),
-          const Text(
-            "OCT 28, 2025 • 4:15PM",
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              HugeIcon(
+                icon: HugeIcons.strokeRoundedClock01,
+                color: Colors.black,
+                size: 18,
+              ),
+              SizedBox(width: 6),
+              Text(
+                "OCT 28, 2025 • 4:15PM",
+                style: TextStyle(fontSize: 12, color: Colors.black),
+              ),
+            ],
           ),
         ],
       ),
@@ -446,7 +472,7 @@ class WinBadge extends StatelessWidget {
             "Team A Won",
             style: TextStyle(
               fontSize: 12,
-              color: primary,
+              color: Colors.black54,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -455,14 +481,18 @@ class WinBadge extends StatelessWidget {
     );
   }
 }
-
 class MiniTeam extends StatelessWidget {
-  const MiniTeam({super.key});
+  final String teamName;
+  final String players;
+
+  const MiniTeam({
+    super.key,
+    required this.teamName,
+    required this.players,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final primary = Theme.of(context).colorScheme.primary;
-
     return Column(
       children: [
         SizedBox(
@@ -470,18 +500,36 @@ class MiniTeam extends StatelessWidget {
           height: 70,
           child: Stack(
             children: [
-              MatchTeam._avatar('assets/players/p1.png', primary),
+              MatchTeam._avatar(
+                'assets/players/p1.png',
+                Colors.grey.shade50,
+              ),
               Positioned(
                 left: 40,
                 child: MatchTeam._avatar(
-                    'assets/players/p2.png', primary),
+                  'assets/players/p2.png',
+                  Colors.grey.shade50,
+                ),
               ),
             ],
           ),
         ),
         const SizedBox(height: 6),
-        const Text("Ahmad & Hassan",
-            style: TextStyle(fontSize: 11)),
+
+        ///  Team Name
+        Text(
+          teamName,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+          ),
+        ),
+
+        ///  Player Names
+        Text(
+          players,
+          style: const TextStyle(fontSize: 11),
+        ),
       ],
     );
   }
@@ -518,11 +566,36 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            navItem(Icons.home, "Home", 0, primary),
-            navItem(Icons.emoji_events_outlined, "Matches", 1, primary),
+            navItem(
+              const HugeIcon(
+                icon: HugeIcons.strokeRoundedHome04,
+                color: Colors.black,
+                size: 24,
+                strokeWidth: 1.5,
+              ),
+              "Home",
+              0,
+              primary,
+            ),
+            navItem(
+              const Icon(Icons.emoji_events_outlined),
+              "Matches",
+              1,
+              primary,
+            ),
             playButton(primary),
-            navItem(Icons.history, "History", 3, primary),
-            navItem(Icons.person_outline, "Profile", 4, primary),
+            navItem(
+              const Icon(Icons.history),
+              "History",
+              3,
+              primary,
+            ),
+            navItem(
+              const Icon(LucideIcons.user),
+              "Profile",
+              4,
+              primary,
+            ),
           ],
         ),
       ),
@@ -530,7 +603,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   }
 
   Widget navItem(
-      IconData icon,
+      Widget icon,
       String label,
       int index,
       Color primary,
@@ -547,16 +620,18 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
         ),
         decoration: BoxDecoration(
           color: active
-              ? primary.withOpacity(0.10) // 👈 soft green shade
+              ? primary.withOpacity(0.10)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(40),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: active ? primary : Colors.black54,
+            IconTheme(
+              data: IconThemeData(
+                color: active ? primary : Colors.black,
+              ),
+              child: icon,
             ),
             const SizedBox(height: 4),
             Text(
