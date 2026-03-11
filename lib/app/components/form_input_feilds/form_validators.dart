@@ -7,8 +7,8 @@ class AppValidators {
         errorText: 'Password is required',
       ),
       FormBuilderValidators.minLength(
-        12,
-        errorText: 'Password must be at least 12 characters',
+        6,
+        errorText: 'Password must be at least 6 characters',
       ),
     ]);
   }
