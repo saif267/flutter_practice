@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'app_router.dart';
 
 class AppNavigator {
   AppNavigator._();
   static final _instance = AppNavigator._();
   factory AppNavigator() => _instance;
-  final router = AppRouter.router;
+  String initialRoute = "/login";
+  late GoRouter router;
+  void setRouter(GoRouter routerInstance) {
+    router = routerInstance;
+  }
 
-  BuildContext get context =>
-      router.routerDelegate.navigatorKey.currentContext!;
+  BuildContext get context => router.routerDelegate.navigatorKey.currentContext!;
 
   void navigateTo(
       String route, {
-        Map<String, String> params = const <String, String>{},
-        Map<String, String> queryParams = const <String, String>{},
+        Map<String, String> params = const {},
+        Map<String, String> queryParams = const {},
         Object? extra,
       }) {
     context.goNamed(

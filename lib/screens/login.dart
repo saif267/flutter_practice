@@ -9,9 +9,15 @@ import '../app/components/form_input_feilds/form_validators.dart';
 import '../app/components/ui/gap.dart';
 import '../app/router/app_navigator.dart';
 import '../features/auth/auth_repository.dart';
+//import '../app/network/secure_token_storage.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+
+class LoginScreen extends StatefulWidget{
+  const LoginScreen({super.key});
+  @override
+  State<LoginScreen>createState()=> _LoginScreenState();
+}
+class _LoginScreenState extends State<LoginScreen>{
 
   final LoginFormModel _formModel = LoginFormModel();
   @override
