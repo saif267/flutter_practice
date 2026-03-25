@@ -23,7 +23,7 @@ class AuthRepository {
 
       final response = httpResponse.data;
 
-      print("API RESPONSE: $response"); // 🔍 DEBUG
+      print("API RESPONSE: $response");
 
      // final response = httpResponse.data;
       final token = response.data.token;

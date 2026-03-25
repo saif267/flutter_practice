@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
     return Container(
       color: context.colorScheme.surface,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16), // 👈 space for nav
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [

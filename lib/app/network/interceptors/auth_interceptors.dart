@@ -4,7 +4,7 @@ import '../secure_token_storage.dart';
 
 class AuthInterceptors extends Interceptor {
 
-  /// 🔹 ADD TOKEN IN REQUEST
+  ///  ADD TOKEN IN REQUEST
   @override
   void onRequest(
       RequestOptions options,
@@ -19,7 +19,7 @@ class AuthInterceptors extends Interceptor {
     handler.next(options);
   }
 
-  /// 🔹 HANDLE ERRORS
+  ///  HANDLE ERRORS
   @override
   Future<void> onError(
       DioException err,
@@ -28,26 +28,26 @@ class AuthInterceptors extends Interceptor {
 
     final path = err.requestOptions.path;
 
-    // 🚫 Skip login & refresh APIs
+    //  Skip login & refresh APIs
     if (path.contains("/auth/login") ||
         path.contains("/auth/refresh-token")) {
       return handler.next(err);
     }
 
-    // 🚫 Only refresh on 401
+    //  Only refresh on 401
     if (err.response?.statusCode != 401) {
       return handler.next(err);
     }
 
     final refreshToken = await SecureTokenStorage.getRefreshToken();
 
-    // 🚫 No refresh token → logout scenario
+    //  No refresh token → logout scenario
     if (refreshToken == null) {
       return handler.next(err);
     }
 
     try {
-      // 🔁 Refresh token
+      //  Refresh token
       final response = await DioClient.dio.post(
         "/auth/refresh-token",
         data: {
@@ -63,7 +63,7 @@ class AuthInterceptors extends Interceptor {
         newRefreshToken,
       );
 
-      // 🔁 RETRY ORIGINAL REQUEST
+      //  RETRY ORIGINAL REQUEST
       final options = err.requestOptions;
 
       options.headers["Authorization"] = "Bearer $newAccessToken";
