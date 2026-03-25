@@ -6,14 +6,14 @@ class LoginFormModel {
   final GlobalKey<FormBuilderState> formKey =
   GlobalKey<FormBuilderState>();
 
-  static const String UsernameOrPhone = 'Username or_phone';
+  static const String email = 'Email';
   static const String password = 'password';
 
   late Map<String, dynamic> initialValue;
 
   LoginFormModel()
       : initialValue = {
-    UsernameOrPhone: kDebugMode ? 'saif' : '',
+    email: kDebugMode ? 'saif123@gmail.com': '',
     password: kDebugMode ? '12345678' : '',
   };
 

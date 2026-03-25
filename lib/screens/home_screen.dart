@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 //import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -8,33 +9,29 @@ import '../app/components/ui/gap.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colorScheme.surface,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              HomeHeader(),
-              VGap.x5(),
-              UpcomingMatchCard(),
-              VGap.x5(),
-              Divider(color: Color(0xFFE2E2E2)),
-              VGap.x5(),
-              RecentMatchesSection(),
-            ],
-          ),
+    return Container(
+      color: context.colorScheme.surface,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16), // 👈 space for nav
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            HomeHeader(),
+            VGap.x5(),
+            UpcomingMatchCard(),
+            VGap.x5(),
+            Divider(color: Color(0xFFE2E2E2)),
+            VGap.x5(),
+            RecentMatchesSection(),
+            SizedBox(height: 120),
+          ],
         ),
       ),
-      //bottomNavigationBar: const CustomBottomNav(),
     );
   }
 }
-
 /// ================= HEADER =================
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -552,63 +549,80 @@ class CustomBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
+    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
 
-    return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        decoration: BoxDecoration(
-          color: context.colorScheme.surface,
-          borderRadius: BorderRadius.circular(60),
-          border: Border.all(color: const Color(0xFFE2E4E9)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            navItem(
-              const HugeIcon(
-                icon: HugeIcons.strokeRoundedHome04,
-                size: 24,
-                strokeWidth: 1.5,
-              ),
-              "Home",
-              0,
-              primary,
-              context,
-            ),
-            HGap.x3(),
-            navItem(
-              const Icon(Icons.emoji_events_outlined),
-              "Matches",
-              1,
-              primary,
-              context,
-            ),
-            HGap.x3(),
-            playButton(primary, context),
-            HGap.x3(),
-            navItem(const Icon(Icons.history), "History", 3, primary, context),
-            HGap.x3(),
-            navItem(
-              const Icon(LucideIcons.user),
-              "Profile",
-              4,
-              primary,
-              context,
-            ),
-          ],
-        ),
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: bottomInset == 0 ? 10 : bottomInset,
+        left: 10,
+        right: 10,
       ),
-    );
+      child: Container(
+        margin: const EdgeInsets.all(6),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(60),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(60),
+              border: Border.all(color: const Color(0xFFE2E4E9)),
+            ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  navItem(
+                    const HugeIcon(
+                      icon: HugeIcons.strokeRoundedHome04,
+                      size: 24,
+                      strokeWidth: 1.5,
+                    ),
+                    "Home",
+                    0,
+                    primary,
+                    context,
+                  ),
+                  HGap.x3(),
+                  navItem(
+                    const Icon(Icons.emoji_events_outlined),
+                    "Matches",
+                    1,
+                    primary,
+                    context,
+                  ),
+                  HGap.x3(),
+                  playButton(primary, context),
+                  HGap.x3(),
+                  navItem(
+                    const Icon(Icons.history),
+                    "History",
+                    3,
+                    primary,
+                    context,
+                  ),
+                  HGap.x3(),
+                  navItem(
+                    const Icon(LucideIcons.user),
+                    "Profile",
+                    4,
+                    primary,
+                    context,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
   }
 
   Widget navItem(
-    Widget icon,
-    String label,
-    int index,
-    Color primary,
-    BuildContext context,
-  ) {
+      Widget icon,
+      String label,
+      int index,
+      Color primary,
+      BuildContext context,
+      ) {
     final active = currentIndex == index;
 
     return GestureDetector(
@@ -616,12 +630,11 @@ class CustomBottomNav extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(vertical: 8),
-        constraints: const BoxConstraints(minWidth: 60),
+        constraints: const BoxConstraints(minWidth: 50),
         decoration: BoxDecoration(
           color: active ? primary.withOpacity(0.10) : Colors.transparent,
           borderRadius: BorderRadius.circular(40),
         ),
-
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -629,11 +642,12 @@ class CustomBottomNav extends StatelessWidget {
               data: IconThemeData(color: active ? primary : Colors.black),
               child: icon,
             ),
-
-            Text(label,  style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-            )
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),
@@ -644,7 +658,11 @@ class CustomBottomNav extends StatelessWidget {
   Widget playButton(Color primary, BuildContext context) {
     return GestureDetector(
       onTap: () => onTap(2),
-      child: Image.asset('assets/images/play_logo.png', height: 66, width: 66),
+      child: Image.asset(
+        'assets/images/play_logo.png',
+        height: 66,
+        width: 66,
+      ),
     );
   }
 }

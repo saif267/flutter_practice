@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -69,17 +68,17 @@ class _LoginScreenState extends State<LoginScreen>{
 
                       VGap(height: 30,),
 
-                      /// USERNAME
+                      /// Email
                       Text(
-                        "Username/Phone no.",
+                        "Email",
                         style: context.textTheme.labelLarge,
                       ),
                       VGap.x2(),
                       AppFormTextField(
-                        name: LoginFormModel.UsernameOrPhone,
-                        hintText: 'Username or phone number',
+                        name: LoginFormModel.email,
+                        hintText: 'Enter your email',
                         prefixIcon: LucideIcons.user,//Icons.person_outline,
-                        validator: AppValidators.username(),
+                        validator: AppValidators.email(),
                       ),
 
                       VGap.x6(),
@@ -117,39 +116,46 @@ class _LoginScreenState extends State<LoginScreen>{
                       ),
                       VGap.x6(),
 
-                      /// LOGIN BUTTON
-                      SizedBox(
-                        width: double.infinity,
-                        height: 52,
-                        child: FilledButton(
-                          onPressed: () async {
+                      Builder(
+                        builder: (context) {
+                          return SizedBox(
+                            width: double.infinity,
+                            height: 52,
+                            child: FilledButton(
+                              onPressed: () async {
+                                if (_formModel.saveAndValidate()) {
+                                  final data = _formModel.payload;
 
-                            if (_formModel.saveAndValidate()) {
+                                  final email = data[LoginFormModel.email];
+                                  final password = data[LoginFormModel.password];
 
-                              final data = _formModel.payload;
+                                  final repo = AuthRepository();
+                                  final success = await repo.login(email, password);
 
-                              final email = data[LoginFormModel.UsernameOrPhone];
-                              final password = data[LoginFormModel.password];
-                              final repo = AuthRepository();
-                              await repo.login(email, password);
-                              if (kDebugMode) {
-                                print("Username/Phone: $email");
-                                print("Password: $password");
-                              }
-                              AppNavigator().navigateToHomeScreen();
-                            } else {
-                              if (kDebugMode) {
-                                print("Validation Failed");
-                              }
-                            }
-                          },
-                          child: Text(
-                            "Login",
-                            style: context.textTheme.titleSmall,
-                          ),
-                        ),
+                                  if (!context.mounted) return;
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        success
+                                            ? "Login Successful "
+                                            : "Invalid email or password ",
+                                      ),
+                                      backgroundColor:
+                                      success ? Colors.green : Colors.red,
+                                    ),
+                                  );
+
+                                  if (success) {
+                                    AppNavigator().navigateToHomeScreen();
+                                  }
+                                }
+                              },
+                              child: Text("Login"),
+                            ),
+                          );
+                        },
                       ),
-
                       VGap.x4(),
 
                       /// REGISTER ROW

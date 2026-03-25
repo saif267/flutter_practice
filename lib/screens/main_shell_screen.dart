@@ -24,8 +24,8 @@ void _goBranch(int index){
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: widget.navigationShell,
-
       bottomNavigationBar: CustomBottomNav(
         currentIndex: widget.navigationShell.currentIndex,
         onTap: _goBranch,
