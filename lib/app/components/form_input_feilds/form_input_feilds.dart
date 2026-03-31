@@ -9,6 +9,8 @@ class AppFormTextField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final TextInputType keyboardType;
 
+  final Color? iconColor;
+
   const AppFormTextField({
     super.key,
     required this.name,
@@ -17,6 +19,7 @@ class AppFormTextField extends StatefulWidget {
     this.isPassword = false,
     this.validator,
     this.keyboardType = TextInputType.text,
+    this.iconColor,
   });
 
   @override
@@ -35,7 +38,10 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
       validator: widget.validator,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        prefixIcon: Icon(widget.prefixIcon),
+        prefixIcon: Icon(
+          widget.prefixIcon,
+          color: widget.iconColor ?? Colors.grey,
+        ),
         suffixIcon: widget.isPassword
             ? IconButton(
           icon: Icon(

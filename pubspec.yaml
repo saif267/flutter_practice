@@ -40,7 +40,8 @@ dependencies:
   lucide_icons: ^0.257.0
   go_router: ^17.1.0
   singleton: ^0.0.3-nullsafety
-
+  morphable_shape: ^2.0.0
+  shared_preferences: ^2.2.2
   dio: ^5.9.2
   retrofit: ^4.9.2
   logger: ^2.7.0
@@ -79,6 +80,7 @@ flutter:
     - assets/Frame.png
     - assets/players/p1.png
     - assets/players/p2.png
+    - assets/players/hassan.png
     - assets/images/play_logo.png
     - assets/icons/trophy.png
     - assets/images/squarepic.png

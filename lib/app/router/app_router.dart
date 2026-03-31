@@ -8,7 +8,7 @@ import '../../../screens/main_shell_screen.dart';
 import '../../Dummyscreens/History.dart';
 import '../../Dummyscreens/Matches.dart';
 import '../../Dummyscreens/Play.dart';
-import '../../Dummyscreens/Profile.dart';
+import '../../Dummyscreens/Profile/Profile.dart';
 import 'app_navigator.dart';
 
 class AppRouter {
