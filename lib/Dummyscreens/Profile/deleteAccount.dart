@@ -52,7 +52,7 @@ class _deleteAccount extends State<deleteAccount> {
                       border: Border.all(color: colors.outline),
                     ),
                     child: Icon(
-                      Icons.arrow_back_ios,
+                      Icons.arrow_back_ios_new,
                       size: 20,
                       color: colors.onSurface,
                     ),
